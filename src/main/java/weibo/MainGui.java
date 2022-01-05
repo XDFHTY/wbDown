@@ -38,7 +38,7 @@ public class MainGui extends JFrame {
         faceCombo.setEnabled(true);
         // faceCombo.addItem("用户昵称");
         // faceCombo.addItem("用户名");
-        faceCombo.addItem("用户ID");
+        faceCombo.addItem("用户ID");//rootuid
         this.add(label);
         this.add(faceCombo);
         label.setHorizontalAlignment(SwingConstants.RIGHT);

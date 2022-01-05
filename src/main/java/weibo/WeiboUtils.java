@@ -105,6 +105,8 @@ public class WeiboUtils {
     private static String regEx = "<[^>]*>";
     private static String regEx2 = "[\\\\/:*?\"<>|]";
 
+    private static String regEx3 = "[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|[\u2600-\u27ff]";
+
     private static int getImgURL(String containerid, int page, List<VoUrlAndName> voUrlAndNames) throws ParseException, IOException {
         String url = "https://m.weibo.cn/api/container/getIndex?count=25&page=" + page + "&containerid=" + containerid;
         System.out.println(url);
@@ -135,7 +137,7 @@ public class WeiboUtils {
 
                 String source = mblog.get("source").getAsString();
                 String text = mblog.get("text").getAsString().replaceAll(" ", "");
-                String newText = text.replaceAll(regEx, "").replaceAll(regEx2,"");
+                String newText = text.replaceAll(regEx, "").replaceAll(regEx2,"").replaceAll(regEx3,"");
                 if (newText.length() > 50) {
                     newText = newText.substring(0, 49) + "...";
                 }
