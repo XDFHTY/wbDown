@@ -133,11 +133,12 @@ public class WeiboUtils {
             JsonObject mblog = array.get(i).getAsJsonObject().getAsJsonObject("mblog");
             if (mblog != null) {
                 String createAt = mblog.get("created_at").getAsString();
-                String date = WeiboUtils.getDate(createAt);
+                String date0 = WeiboUtils.getDate(createAt);
+                long time0 = WeiboUtils.getTime0(createAt);
 
                 String source = mblog.get("source").getAsString();
                 String text = mblog.get("text").getAsString().replaceAll(" ", "");
-                String newText = text.replaceAll(regEx, "").replaceAll(regEx2,"").replaceAll(regEx3,"");
+                String newText = text.replaceAll(regEx, "").replaceAll(regEx2, "").replaceAll(regEx3, "");
                 if (newText.length() > 50) {
                     newText = newText.substring(0, 49) + "...";
                 }
@@ -151,8 +152,12 @@ public class WeiboUtils {
 ////                }
 
                 if (WeiboUtils.needFilterDate) {
+                    long time1 =  WeiboUtils.getTime(WeiboUtils.startTime);
+                    long time2 =  WeiboUtils.getTime(WeiboUtils.endTime);
+                    System.out.println("t0:"+time0+"|t1:"+time1+"<> t2:"+time2);
 
-                    if (date.compareTo(WeiboUtils.startTime) < 0 || date.compareTo(WeiboUtils.endTime) > 0) {
+                    if (time0 < time1|| time0 > time2) {
+                        System.out.println("时间超出(" + WeiboUtils.startTime + "-" + WeiboUtils.endTime + "): " + date0);
                         continue;
                     }
                 }
@@ -165,7 +170,7 @@ public class WeiboUtils {
                             String fileUrl = large.get("url").getAsString();
                             VoUrlAndName voUrlAndName = new VoUrlAndName();
                             voUrlAndName.setUrl(fileUrl);
-                            voUrlAndName.setFilename(date  + "-" + (j + 1) + "-(" + newText + ")" + getSuffix(fileUrl));
+                            voUrlAndName.setFilename(date0 + "-" + (j + 1) + "-(" + newText + ")" + getSuffix(fileUrl));
                             voUrlAndNames.add(voUrlAndName);
 //                            urls.add(large.get("url").getAsString());
                         }
@@ -257,6 +262,33 @@ public class WeiboUtils {
 
 //        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 //        return sDateFormat.format(new Date(time));
+    }
+    public static String getDateStr(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(new Date());
+    }
+
+    public static long getTime0(String dateStr) {
+        long time;
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+        try {
+            time = sdf.parse(dateStr).getTime();
+        } catch (Exception e) {
+            time = 0;
+        }
+
+        return time;
+    }
+    public static long getTime(String dateStr) {
+        long time;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            time = sdf.parse(dateStr).getTime();
+        } catch (Exception e) {
+            time = 0;
+        }
+
+        return time;
     }
 
     private static String getSuffix(String url) {

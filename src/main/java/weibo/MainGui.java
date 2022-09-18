@@ -44,7 +44,7 @@ public class MainGui extends JFrame {
         label.setHorizontalAlignment(SwingConstants.RIGHT);
 
         // 第二行内容
-        JLabel label2 = new JLabel("昵称");
+        JLabel label2 = new JLabel("值");
         label2.setHorizontalAlignment(SwingConstants.RIGHT);
         tf = new TextField(20);
         this.add(label2);
@@ -56,7 +56,7 @@ public class MainGui extends JFrame {
         this.add(label3);
 
         startTimeChooser = DateChooser.getInstance("yyyy-MM-dd");
-        startShowDate = new JLabel("单击选择日期");
+        startShowDate = new JLabel("2011-01-01");
         startTimeChooser.register(startShowDate);
         this.add(startShowDate);
 
@@ -66,7 +66,7 @@ public class MainGui extends JFrame {
         this.add(label4);
 
         endTimeChooser = DateChooser.getInstance("yyyy-MM-dd");
-        endShowDate = new JLabel("单击选择日期");
+        endShowDate = new JLabel(WeiboUtils.getDateStr());
         endTimeChooser.register(endShowDate);
         this.add(endShowDate);
 
@@ -130,7 +130,7 @@ public class MainGui extends JFrame {
         JLabel label5 = new JLabel("文件保存地址");
         label5.setHorizontalAlignment(SwingConstants.RIGHT);
         this.add(label5);
-        filePathButton = new JButton("选择");
+        filePathButton = new JButton("E:\\CentDownLoad\\WeiboAlbum");
         filePathButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
